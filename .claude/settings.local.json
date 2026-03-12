@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl:*)",
+      "WebFetch(domain:www.gamermarkt.com)",
+      "Bash(python3:*)",
+      "WebFetch(domain:docs.g2g.com)",
+      "Bash(pip3 install:*)",
+      "Bash(python3.exe:*)",
+      "Bash(wc:*)",
+      "Bash(python:*)",
+      "Bash(pip show:*)",
+      "Bash(pip3 list:*)",
+      "Bash(ls:*)",
+      "Bash(pip install:*)",
+      "Bash(du -sh /mnt/c/Users/goktu/Desktop/otomatize/* 2>/dev/null | sort -h)",
+      "Bash(grep -n \"requirements\\\\|import\" /mnt/c/Users/goktu/Desktop/otomatize/*.py | head -80)",
+      "Bash(grep -c \"def \" /mnt/c/Users/goktu/Desktop/otomatize/*.py | sort -t: -k2 -rn)",
+      "Bash(git checkout:*)",
+      "Bash(pip index:*)"
+    ]
+  }
+}

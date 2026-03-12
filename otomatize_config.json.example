@@ -1,0 +1,22 @@
+{
+    "g2g_api": {
+        "base_url": "https://www.g2g.com/api",
+        "headers": {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+        }
+    },
+    "chrome_settings": {
+        "profile_path": "./chrome_profile_g2g",
+        "headless": false,
+        "window_size": "1920,1080"
+    },
+    "scraping": {
+        "delay_min": 2,
+        "delay_max": 5,
+        "max_retries": 3
+    },
+    "currency": {
+        "default": "USD",
+        "supported": ["USD", "EUR", "TRY"]
+    }
+}

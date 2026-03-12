@@ -1,0 +1,1725 @@
+<!DOCTYPE html>
+<html lang="tr" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oto-Bot V4 - Preset Otomatize</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --bg-card-hover: #334155;
+            --border-color: #475569;
+            --primary: #7c3aed;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+        }
+
+        body {
+            background: var(--bg-dark);
+            color: #e2e8f0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--bg-card) 0%, #16162b 100%);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.4rem;
+            background: linear-gradient(135deg, var(--primary), #a855f7);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+        }
+
+        .card-header {
+            background: rgba(0,0,0,0.2);
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 600;
+        }
+
+        /* Preset List */
+        .preset-list {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .preset-item {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .preset-item:hover {
+            background: var(--bg-card-hover);
+        }
+
+        .preset-item.active {
+            border-left: 4px solid var(--primary);
+            background: rgba(124, 58, 237, 0.1);
+        }
+
+        .preset-item.selected {
+            background: var(--bg-card-hover);
+            border-left: 4px solid var(--info);
+        }
+
+        .preset-name {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .preset-game {
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+
+        .preset-badge {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
+        .badge-active {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--success);
+        }
+
+        .badge-inactive {
+            background: rgba(148, 163, 184, 0.2);
+            color: #94a3b8;
+        }
+
+        /* Form Styles */
+        .form-control, .form-select {
+            background: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            color: #e2e8f0;
+        }
+
+        .form-control:focus, .form-select:focus {
+            background: var(--bg-dark);
+            border-color: var(--primary);
+            color: #e2e8f0;
+            box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.2);
+        }
+
+        /* Filter Chips */
+        .filter-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .filter-chip {
+            display: none;
+        }
+
+        .filter-chip + label {
+            padding: 6px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            background: var(--bg-dark);
+        }
+
+        .filter-chip + label:hover {
+            border-color: var(--primary);
+            background: rgba(124, 58, 237, 0.1);
+        }
+
+        .filter-chip:checked + label {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        /* Status Panel */
+        .status-panel {
+            background: linear-gradient(135deg, var(--bg-card) 0%, #16162b 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        .status-running {
+            background: var(--success);
+            box-shadow: 0 0 10px var(--success);
+            animation: pulse 1.5s infinite;
+        }
+
+        .status-stopped {
+            background: var(--danger);
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Stats */
+        .stat-box {
+            text-align: center;
+            padding: 15px;
+            border-radius: 8px;
+            background: rgba(0,0,0,0.2);
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            text-transform: uppercase;
+        }
+
+        /* Log Panel */
+        .log-panel {
+            max-height: 200px;
+            overflow-y: auto;
+            font-family: 'Consolas', monospace;
+            font-size: 0.85rem;
+            background: #0a0a0f;
+            border-radius: 8px;
+            padding: 10px;
+        }
+
+        .log-entry {
+            padding: 2px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .log-time {
+            color: #64748b;
+            margin-right: 10px;
+        }
+
+        .log-info { color: #e2e8f0; }
+        .log-success { color: var(--success); }
+        .log-error { color: var(--danger); }
+        .log-warning { color: var(--warning); }
+
+        /* Buttons */
+        .btn-start {
+            background: linear-gradient(135deg, var(--success) 0%, #16a34a 100%);
+            border: none;
+            color: white;
+            font-weight: 600;
+        }
+
+        .btn-start:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);
+        }
+
+        .btn-stop {
+            background: linear-gradient(135deg, var(--danger) 0%, #dc2626 100%);
+            border: none;
+            color: white;
+            font-weight: 600;
+        }
+
+        .btn-stop:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+        }
+
+        .btn-kill {
+            background: linear-gradient(135deg, #7f1d1d 0%, #450a0a 100%);
+            border: 2px solid #dc2626;
+            color: #fca5a5;
+            font-weight: 700;
+        }
+
+        .btn-kill:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(127, 29, 29, 0.6);
+            color: white;
+        }
+
+        /* Game Colors */
+        .game-valorant { color: #ff4655; }
+        .game-lol { color: #c89b3c; }
+        .game-fortnite { color: #00d4ff; }
+        .game-cs2 { color: #ff9800; }
+
+        /* Kur Info */
+        .kur-info {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 8px;
+            padding: 10px 15px;
+        }
+
+        /* Prompt Modal Stilleri */
+        .prompt-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1050;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .prompt-modal.active {
+            display: flex;
+        }
+
+        .prompt-modal-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .prompt-modal-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .prompt-modal-body {
+            padding: 20px;
+        }
+
+        .prompt-tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .prompt-tab {
+            padding: 8px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            background: var(--bg-dark);
+            color: #94a3b8;
+            transition: all 0.2s;
+        }
+
+        .prompt-tab:hover {
+            border-color: var(--primary);
+            color: #e2e8f0;
+        }
+
+        .prompt-tab.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .prompt-textarea {
+            width: 100%;
+            min-height: 300px;
+            background: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: #e2e8f0;
+            padding: 15px;
+            font-family: 'Consolas', monospace;
+            font-size: 0.9rem;
+            resize: vertical;
+        }
+
+        .prompt-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .prompt-variables {
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .prompt-variables h6 {
+            color: #94a3b8;
+            margin-bottom: 10px;
+        }
+
+        .prompt-variables code {
+            background: rgba(124, 58, 237, 0.2);
+            color: var(--primary);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        .prompt-variables p {
+            margin-bottom: 5px;
+            font-size: 0.85rem;
+        }
+
+        .btn-prompt {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border: none;
+            color: white;
+        }
+
+        .btn-prompt:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg mb-4">
+        <div class="container-fluid">
+            <a class="navbar-brand">
+                <i class="fas fa-robot me-2"></i>Oto-Bot V4 Otomatize
+            </a>
+            <div class="d-flex align-items-center gap-3">
+                <div class="kur-info">
+                    <i class="fas fa-dollar-sign me-1"></i>
+                    <span id="kurValue">-</span> TL/USDT
+                </div>
+                <div id="systemStatus" class="fw-bold">
+                    <span class="status-indicator status-stopped"></span>
+                    DURDURULDU
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid px-4">
+        <div class="row">
+            <!-- Left Panel: Preset List -->
+            <div class="col-md-3">
+                <div class="card h-100">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span><i class="fas fa-filter me-2"></i>Presetler</span>
+                        <button class="btn btn-sm btn-primary" onclick="newPreset()">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    <div class="card-body p-0 preset-list" id="presetList">
+                        <!-- Presets will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Middle Panel: Preset Editor -->
+            <div class="col-md-5">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-edit me-2"></i>Preset Duzenle
+                    </div>
+                    <div class="card-body">
+                        <form id="presetForm">
+                            <input type="hidden" id="presetId">
+
+                            <div class="row mb-3">
+                                <div class="col-8">
+                                    <label class="form-label">Preset Adi</label>
+                                    <input type="text" class="form-control" id="presetName"
+                                           placeholder="Ornek: Valorant TR Yucelik">
+                                </div>
+                                <div class="col-4">
+                                    <label class="form-label">Oyun</label>
+                                    <select class="form-select" id="presetGame" onchange="updateFilterOptions()">
+                                        <option value="valorant">Valorant</option>
+                                        <option value="lol">League of Legends</option>
+                                        <option value="cs2">CS2</option>
+                                        <option value="fortnite">Fortnite</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <hr class="border-secondary">
+                            <h6 class="text-secondary mb-3">
+                                <i class="fas fa-sliders-h me-2"></i>Filtreler
+                            </h6>
+
+                            <!-- Servers -->
+                            <div class="mb-3" id="serversSection">
+                                <label class="form-label">Sunucular</label>
+                                <div class="filter-chips" id="serverChips">
+                                    <!-- Will be populated by JS -->
+                                </div>
+                            </div>
+
+                            <!-- Divisions/Ranks -->
+                            <div class="mb-3" id="divisionsSection">
+                                <label class="form-label">Ranklar</label>
+                                <div class="filter-chips" id="divisionChips">
+                                    <!-- Will be populated by JS -->
+                                </div>
+                            </div>
+
+                            <!-- Price Range -->
+                            <div class="row mb-3">
+                                <div class="col-6">
+                                    <label class="form-label">Min Fiyat (TL)</label>
+                                    <input type="number" class="form-control" id="minPrice" placeholder="0">
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label">Max Fiyat (TL)</label>
+                                    <input type="number" class="form-control" id="maxPrice" placeholder="10000">
+                                </div>
+                            </div>
+
+                            <!-- Valorant: Agent/Skin Count -->
+                            <div class="row mb-3" id="valorantFiltersSection" style="display: none;">
+                                <div class="col-3">
+                                    <label class="form-label">Min Ajan</label>
+                                    <input type="number" class="form-control" id="minAgent" placeholder="0">
+                                </div>
+                                <div class="col-3">
+                                    <label class="form-label">Max Ajan</label>
+                                    <input type="number" class="form-control" id="maxAgent" placeholder="25">
+                                </div>
+                                <div class="col-3">
+                                    <label class="form-label">Min Skin</label>
+                                    <input type="number" class="form-control" id="minSkin" placeholder="0">
+                                </div>
+                                <div class="col-3">
+                                    <label class="form-label">Max Skin</label>
+                                    <input type="number" class="form-control" id="maxSkin" placeholder="500">
+                                </div>
+                            </div>
+
+                            <!-- LoL: Champion/Skin Count -->
+                            <div class="row mb-3" id="lolFiltersSection" style="display: none;">
+                                <div class="col-3">
+                                    <label class="form-label">Min Champ</label>
+                                    <input type="number" class="form-control" id="minChamps" placeholder="0">
+                                </div>
+                                <div class="col-3">
+                                    <label class="form-label">Max Champ</label>
+                                    <input type="number" class="form-control" id="maxChamps" placeholder="170">
+                                </div>
+                                <div class="col-3">
+                                    <label class="form-label">Min Skin</label>
+                                    <input type="number" class="form-control" id="minSkins" placeholder="0">
+                                </div>
+                                <div class="col-3">
+                                    <label class="form-label">Max Skin</label>
+                                    <input type="number" class="form-control" id="maxSkins" placeholder="1000">
+                                </div>
+                            </div>
+
+                            <!-- Kar Marjı -->
+                            <div class="mb-3">
+                                <label class="form-label">
+                                    <i class="fas fa-percentage me-1"></i>Kar Marji (%)
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">%</span>
+                                    <input type="number" class="form-control" id="presetProfitMargin"
+                                           min="0" max="200" step="5" value="45"
+                                           placeholder="45" oninput="updateMarginMultiplier()">
+                                    <span class="input-group-text" id="marginMultiplier">1.45x</span>
+                                </div>
+                                <small class="text-secondary">Bu preset icin kar marji (ornek: 45 = %45 kar)</small>
+                            </div>
+
+                            <!-- Active Toggle -->
+                            <div class="form-check form-switch mb-4">
+                                <input class="form-check-input" type="checkbox" id="presetActive">
+                                <label class="form-check-label" for="presetActive">
+                                    Bu preset aktif olsun
+                                </label>
+                            </div>
+
+                            <!-- Prompt Settings Button -->
+                            <div class="mb-4">
+                                <button type="button" class="btn btn-prompt w-100" onclick="openPromptSettings()">
+                                    <i class="fas fa-magic me-2"></i>AI Prompt Ayarlari
+                                </button>
+                            </div>
+
+                            <!-- Actions -->
+                            <div class="d-flex gap-2">
+                                <button type="button" class="btn btn-outline-danger" onclick="deletePreset()">
+                                    <i class="fas fa-trash me-1"></i>Sil
+                                </button>
+                                <button type="button" class="btn btn-primary flex-grow-1" onclick="savePreset()">
+                                    <i class="fas fa-save me-1"></i>Kaydet
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel: Status & Controls -->
+            <div class="col-md-4">
+                <!-- Control Panel -->
+                <div class="status-panel mb-3">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="mb-0">
+                            <i class="fas fa-play-circle me-2"></i>Kontrol
+                        </h5>
+                        <div class="btn-group">
+                            <button class="btn btn-start" onclick="startBot()">
+                                <i class="fas fa-play me-1"></i>Baslat
+                            </button>
+                            <button class="btn btn-stop" onclick="stopBot()">
+                                <i class="fas fa-stop me-1"></i>Durdur
+                            </button>
+                            <button class="btn btn-kill" onclick="killSystem()" title="Sistemi tamamen kapatır (Ctrl+C)">
+                                <i class="fas fa-skull-crossbones me-1"></i>Kapat
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <small class="text-secondary">Aktif Preset:</small>
+                        <div id="currentPreset" class="fw-bold">-</div>
+                    </div>
+
+                    <div>
+                        <small class="text-secondary">Durum:</small>
+                        <div id="currentStatus">Bekleniyor</div>
+                    </div>
+                </div>
+
+                <!-- Stats -->
+                <div class="card mb-3">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span><i class="fas fa-chart-bar me-2"></i>Istatistikler</span>
+                        <div class="btn-group btn-group-sm">
+                            <button class="btn btn-outline-secondary active" id="btnSessionStats" onclick="showSessionStats()">Session</button>
+                            <button class="btn btn-outline-secondary" id="btnPresetStats" onclick="showPresetStats()">Preset</button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <!-- Session Stats (Varsayilan) -->
+                        <div id="sessionStatsPanel">
+                            <div class="row g-2 mb-2">
+                                <div class="col-6">
+                                    <div class="stat-box">
+                                        <div class="stat-value text-success" id="statCreated">0</div>
+                                        <div class="stat-label">G2G Olusturuldu</div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="stat-box">
+                                        <div class="stat-value text-primary" id="statDelivery">0</div>
+                                        <div class="stat-label">Delivery OK</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row g-2">
+                                <div class="col-4">
+                                    <div class="stat-box">
+                                        <div class="stat-value text-danger" id="statDeleted">0</div>
+                                        <div class="stat-label">Silindi</div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="stat-box">
+                                        <div class="stat-value text-info" id="statScanned">0</div>
+                                        <div class="stat-label">Tarandi</div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="stat-box">
+                                        <div class="stat-value text-warning" id="statErrors">0</div>
+                                        <div class="stat-label">Hata</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Preset Stats (Tum presetler + secilen preset detayi) -->
+                        <div id="presetStatsPanel" style="display: none;">
+                            <!-- Tum Presetlerin Mini Kartlari -->
+                            <div id="allPresetsStatsContainer" class="mb-3" style="max-height: 280px; overflow-y: auto;">
+                                <div class="text-center text-secondary py-2" style="font-size: 0.75rem;">
+                                    Preset istatistikleri yukleniyor...
+                                </div>
+                            </div>
+
+                            <!-- Secilen Preset Detay -->
+                            <div id="selectedPresetDetail" style="display: none;">
+                                <div class="text-center mb-2" id="presetStatsHeader">
+                                    <span class="badge bg-secondary">Preset sec</span>
+                                </div>
+
+                                <!-- Session Stats (Bu Oturum) -->
+                                <div class="mb-2">
+                                    <small class="text-primary fw-bold"><i class="fas fa-clock me-1"></i>BU OTURUM</small>
+                                </div>
+                                <div class="row g-2 mb-3">
+                                    <div class="col-3">
+                                        <div class="stat-box" style="padding: 10px;">
+                                            <div class="stat-value text-success" style="font-size: 1.4rem;" id="presetSessionCreated">0</div>
+                                            <div class="stat-label" style="font-size: 0.65rem;">Olusturuldu</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="stat-box" style="padding: 10px;">
+                                            <div class="stat-value text-danger" style="font-size: 1.4rem;" id="presetSessionDeleted">0</div>
+                                            <div class="stat-label" style="font-size: 0.65rem;">Silindi</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="stat-box" style="padding: 10px;">
+                                            <div class="stat-value text-warning" style="font-size: 1.4rem;" id="presetSessionErrors">0</div>
+                                            <div class="stat-label" style="font-size: 0.65rem;">Hata</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="stat-box" style="padding: 10px;">
+                                            <div class="stat-value text-info" style="font-size: 1.4rem;" id="presetSessionScanned">0</div>
+                                            <div class="stat-label" style="font-size: 0.65rem;">Tarandi</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Toplam Stats (Kalici) -->
+                                <div class="mb-2">
+                                    <small class="text-secondary fw-bold"><i class="fas fa-database me-1"></i>TOPLAM</small>
+                                </div>
+                                <div class="row g-2 mb-2">
+                                    <div class="col-6">
+                                        <div class="stat-box" style="padding: 8px; background: rgba(0,0,0,0.1);">
+                                            <div class="stat-value" style="font-size: 1.2rem;" id="presetStatCreated">0</div>
+                                            <div class="stat-label" style="font-size: 0.6rem;">Toplam Olusturulan</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="stat-box" style="padding: 8px; background: rgba(0,0,0,0.1);">
+                                            <div class="stat-value text-info" style="font-size: 1.2rem;" id="presetStatActive">0</div>
+                                            <div class="stat-label" style="font-size: 0.6rem;">Aktif Ilan</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="text-secondary" style="font-size: 0.7rem;">
+                                    <div><i class="fas fa-clock me-1"></i>Son Tarama: <span id="presetLastScan">-</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Logs -->
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-terminal me-2"></i>Canli Log
+                    </div>
+                    <div class="card-body p-2">
+                        <div class="log-panel" id="logPanel">
+                            <div class="text-secondary text-center py-3">
+                                Henuz log yok...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Prompt Settings Modal -->
+    <div class="prompt-modal" id="promptModal">
+        <div class="prompt-modal-content">
+            <div class="prompt-modal-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-magic me-2"></i>AI Prompt Ayarlari <span id="currentGameLabel" class="text-secondary"></span>
+                    <span id="promptBadge" class="badge ms-2" style="font-size: 0.7em;"></span>
+                </h5>
+                <button type="button" class="btn-close btn-close-white" onclick="closePromptSettings()"></button>
+            </div>
+            <div class="prompt-modal-body">
+                <p class="text-secondary mb-3">
+                    Bu preset icin AI'nin kullanacagi prompt sablonunu duzenleyin. Degiskenler otomatik olarak gercek verilerle degistirilir.
+                </p>
+
+                <div class="mb-3">
+                    <label class="form-label">Prompt Sablonu</label>
+                    <textarea class="prompt-textarea" id="promptTemplate" placeholder="AI prompt sablonunuzu buraya yazin..."></textarea>
+                </div>
+
+                <div class="prompt-variables">
+                    <h6><i class="fas fa-code me-2"></i>Kullanilabilir Degiskenler</h6>
+                    <div class="row" id="variablesHint">
+                        <!-- Variables will be populated by JS -->
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2 mt-4">
+                    <button type="button" class="btn btn-outline-secondary" onclick="resetPromptToDefault()">
+                        <i class="fas fa-undo me-1"></i>Varsayilana Don
+                    </button>
+                    <button type="button" class="btn btn-outline-info" onclick="testPromptVariables()">
+                        <i class="fas fa-eye me-1"></i>Onizle
+                    </button>
+                    <button type="button" class="btn btn-primary flex-grow-1" onclick="savePromptAndClose()">
+                        <i class="fas fa-check me-1"></i>Kaydet ve Kapat
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API = "http://127.0.0.1:5001/api";
+        let presets = [];
+        let selectedPresetId = null;
+        let currentPromptGame = 'valorant';
+        let currentStatsView = 'session'; // 'session' veya 'preset'
+
+        // ==================== CATEGORY PROMPTS ====================
+        // prompts.json'dan yüklenir (API üzerinden)
+        let CATEGORY_PROMPTS = {};
+        let DEFAULT_PROMPT = '';
+
+        async function loadPrompts() {
+            try {
+                const res = await fetch(API + '/prompts');
+                if (res.ok) {
+                    const data = await res.json();
+                    DEFAULT_PROMPT = data.default || '';
+                    delete data.default;
+                    CATEGORY_PROMPTS = data;
+                }
+            } catch (e) {
+                console.error('Promptlar yüklenemedi:', e);
+            }
+        }
+
+        // Degisken referanslari (oyuna gore)
+        const VARIABLE_HINTS = {
+            'valorant': `
+                <div class="col-md-6">
+                    <p><code>{title}</code> - Orijinal baslik</p>
+                    <p><code>{price}</code> - Fiyat</p>
+                    <p><code>{region}</code> - Bolge</p>
+                    <p><code>{rank}</code> - Rank</p>
+                    <p><code>{act_rank}</code> - Act Rank</p>
+                    <p><code>{level}</code> - Seviye</p>
+                </div>
+                <div class="col-md-6">
+                    <p><code>{agents}</code> - Ajan sayisi</p>
+                    <p><code>{skins}</code> - Skin sayisi</p>
+                    <p><code>{valorant_vp}</code> - Valorant Points</p>
+                    <p><code>{valorant_rp}</code> - Radianite Points</p>
+                    <p><code>{valorant_kc}</code> - Kingdom Credits</p>
+                    <p><code>{valorant_country}</code> - Hesap ulkesi</p>
+                    <p><code>{valorant_created_at}</code> - Olusturma sezonu</p>
+                    <p><code>{item_details}</code> - Tum detaylar (JSON)</p>
+                </div>
+            `,
+            'lol': `
+                <div class="col-md-6">
+                    <p><code>{title}</code> - Orijinal baslik</p>
+                    <p><code>{price}</code> - Fiyat</p>
+                    <p><code>{lol_server}</code> - Sunucu</p>
+                    <p><code>{lol_level}</code> - Seviye</p>
+                    <p><code>{lol_honor}</code> - Honor seviyesi</p>
+                    <p><code>{lol_solo_rank}</code> - Solo/Duo Rank</p>
+                    <p><code>{lol_flex_rank}</code> - Flex 5v5 Rank</p>
+                </div>
+                <div class="col-md-6">
+                    <p><code>{lol_season_reward}</code> - Season Reward</p>
+                    <p><code>{lol_prev_season}</code> - Onceki sezon</p>
+                    <p><code>{lol_profile_banner}</code> - Profil banner</p>
+                    <p><code>{champions}</code> - Sampiyon sayisi</p>
+                    <p><code>{skins}</code> - Skin sayisi</p>
+                    <p><code>{lol_rp}</code> - Riot Points</p>
+                    <p><code>{lol_be}</code> - Blue Essence</p>
+                    <p><code>{lol_creation_country}</code> - Olusturma ulkesi</p>
+                    <p><code>{lol_created_at}</code> - Olusturma sezonu</p>
+                    <p><code>{item_details}</code> - Tum detaylar (JSON)</p>
+                </div>
+            `,
+            'fortnite': `
+                <div class="col-md-6">
+                    <p><code>{title}</code> - Orijinal baslik</p>
+                    <p><code>{price}</code> - Fiyat</p>
+                    <p><code>{level}</code> - Hesap seviyesi</p>
+                    <p><code>{first_season}</code> - Ilk oynadigi sezon</p>
+                    <p><code>{vbucks}</code> - V-Bucks miktari</p>
+                </div>
+                <div class="col-md-6">
+                    <p><code>{total_items}</code> - Toplam item sayisi</p>
+                    <p><code>{connected_platforms}</code> - Baglanabilecek platformlar</p>
+                    <p><code>{outfits_count}</code> - Outfit sayisi</p>
+                    <p><code>{item_details}</code> - Tum detaylar (JSON)</p>
+                </div>
+            `,
+            'cs2': `
+                <div class="col-md-6">
+                    <p><code>{title}</code> - Orijinal baslik</p>
+                    <p><code>{price}</code> - Fiyat</p>
+                    <p><code>{prime}</code> - Prime durumu</p>
+                    <p><code>{cs2_level}</code> - CS2 seviyesi</p>
+                    <p><code>{rank}</code> - Rank</p>
+                </div>
+                <div class="col-md-6">
+                    <p><code>{faceit_connection}</code> - Faceit baglantisi</p>
+                    <p><code>{faceit_level}</code> - Faceit seviyesi</p>
+                    <p><code>{vac_ban}</code> - VAC/Overwatch ban</p>
+                    <p><code>{community_ban}</code> - Community ban</p>
+                    <p><code>{trade_ban}</code> - Trade ban</p>
+                    <p><code>{item_details}</code> - Tum detaylar (JSON)</p>
+                </div>
+            `
+        };
+
+        // ==================== PROMPT FUNCTIONS ====================
+        function getDefaultPrompt(game) {
+            return CATEGORY_PROMPTS[game] || DEFAULT_PROMPT;
+        }
+
+        function openPromptSettings() {
+            if (!selectedPresetId) {
+                alert('Lutfen once bir preset secin veya olusturun!');
+                return;
+            }
+
+            const game = document.getElementById('presetGame').value;
+            currentPromptGame = game;
+
+            // Oyun etiketini guncelle
+            document.getElementById('currentGameLabel').textContent = `(${getGameName(game)})`;
+
+            // Mevcut preset'in custom_prompt'unu al, yoksa varsayilani kullan
+            const preset = presets.find(p => p.id === selectedPresetId);
+            const badge = document.getElementById('promptBadge');
+            if (preset?.custom_prompt) {
+                document.getElementById('promptTemplate').value = preset.custom_prompt;
+                badge.textContent = 'Ozellestirilmis';
+                badge.className = 'badge ms-2 bg-warning text-dark';
+                badge.style.fontSize = '0.7em';
+            } else {
+                document.getElementById('promptTemplate').value = getDefaultPrompt(game);
+                badge.textContent = 'Varsayilan';
+                badge.className = 'badge ms-2 bg-success';
+                badge.style.fontSize = '0.7em';
+            }
+
+            // Degisken ipuclarini guncelle
+            updateVariablesHint(game);
+
+            // Modal'i goster
+            document.getElementById('promptModal').classList.add('active');
+        }
+
+        function closePromptSettings() {
+            document.getElementById('promptModal').classList.remove('active');
+        }
+
+        function updateVariablesHint(game) {
+            const variablesDiv = document.getElementById('variablesHint');
+            variablesDiv.innerHTML = VARIABLE_HINTS[game] || VARIABLE_HINTS['valorant'];
+        }
+
+        function resetPromptToDefault() {
+            if (confirm('Prompt\'u varsayilana dondurmek istediginizden emin misiniz?')) {
+                const defaultPrompt = getDefaultPrompt(currentPromptGame);
+                document.getElementById('promptTemplate').value = defaultPrompt;
+
+                // Presetten custom_prompt'u kaldir
+                const presetIndex = presets.findIndex(p => p.id === selectedPresetId);
+                if (presetIndex > -1) {
+                    delete presets[presetIndex].custom_prompt;
+                }
+
+                // Badge'i guncelle
+                const badge = document.getElementById('promptBadge');
+                badge.textContent = 'Varsayilan';
+                badge.className = 'badge ms-2 bg-success';
+                badge.style.fontSize = '0.7em';
+            }
+        }
+
+        function testPromptVariables() {
+            const prompt = document.getElementById('promptTemplate').value;
+            // Degiskenleri bul ve goster
+            const variables = prompt.match(/\{[a-z_]+\}/g) || [];
+            const uniqueVars = [...new Set(variables)];
+            alert('Kullanilan degiskenler:\n\n' + uniqueVars.join('\n'));
+        }
+
+        function savePromptAndClose() {
+            const prompt = document.getElementById('promptTemplate').value;
+            const defaultPrompt = getDefaultPrompt(currentPromptGame);
+
+            // Mevcut preset'i bul ve custom_prompt'u guncelle
+            const presetIndex = presets.findIndex(p => p.id === selectedPresetId);
+            if (presetIndex > -1) {
+                // Varsayilanla ayniysa custom_prompt'u kaldir
+                if (prompt.trim() === defaultPrompt.trim()) {
+                    delete presets[presetIndex].custom_prompt;
+                } else {
+                    presets[presetIndex].custom_prompt = prompt;
+                }
+            }
+
+            // Kaydedildi mesaji
+            alert('Prompt kaydedildi! Preset\'i kaydetmeyi unutmayin.');
+            closePromptSettings();
+        }
+
+        // Server options per game (GamerMarkt'in gercekten destekledigi sunucular)
+        const SERVER_OPTIONS = {
+            valorant: ['EU', 'NA'],  // GamerMarkt Valorant sadece EU/NA destekliyor
+            lol: ['TR', 'EUW', 'EUNE', 'NA', 'BR', 'LAN', 'LAS', 'JP', 'RU', 'OCE'],
+            cs2: [],  // CS2'de sunucu filtresi yok
+            fortnite: []  // Fortnite'da sunucu filtresi yok
+        };
+
+        // Division options per game
+        const DIVISION_OPTIONS = {
+            valorant: ['Unranked', 'Iron', 'Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond', 'Ascendant', 'Immortal', 'Radiant'],
+            lol: ['Unranked', 'Iron', 'Bronze', 'Silver', 'Gold', 'Platinum', 'Emerald', 'Diamond', 'Master', 'Grandmaster', 'Challenger'],
+            cs2: ['Unranked', 'Silver', 'Gold Nova', 'Master Guardian', 'Legendary Eagle', 'Supreme', 'Global Elite'],
+            fortnite: ['Unranked', 'Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond', 'Elite', 'Champion', 'Unreal']
+        };
+
+        // Load presets from API
+        async function loadPresets() {
+            try {
+                const res = await fetch(API + '/presets');
+                const data = await res.json();
+                presets = data.presets || [];
+                
+                // Preset istatistiklerini de yukle
+                await loadAllPresetStats();
+            } catch (e) {
+                console.error('Failed to load presets:', e);
+            }
+        }
+
+        // Preset stats cache (performans icin)
+        let presetStatsCache = {};
+        let presetSessionStatsCache = {};
+        
+        // Tum preset istatistiklerini yukle
+        async function loadAllPresetStats() {
+            try {
+                // Kalici stats
+                const res = await fetch(API + '/preset-stats');
+                const data = await res.json();
+                
+                if (data.success && data.presets) {
+                    presetStatsCache = {};
+                    data.presets.forEach(p => {
+                        presetStatsCache[p.id] = p.stats;
+                    });
+                }
+                
+                // Session stats
+                const res2 = await fetch(API + '/preset-session-stats');
+                const data2 = await res2.json();
+                
+                if (data2.success && data2.presets) {
+                    presetSessionStatsCache = {};
+                    data2.presets.forEach(p => {
+                        presetSessionStatsCache[p.id] = p.session_stats;
+                    });
+                }
+                
+                renderPresetList(); // Listeyi guncelle
+                renderAllPresetStats(); // Mini kartları güncelle
+            } catch (e) {
+                console.error('Preset stats yuklenemedi:', e);
+            }
+        }
+
+        // Tüm presetlerin mini istatistik kartlarını render et
+        function renderAllPresetStats() {
+            const container = document.getElementById('allPresetsStatsContainer');
+            if (!container) return;
+
+            const activePresets = presets.filter(p => p.active);
+
+            if (activePresets.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center text-secondary py-2" style="font-size: 0.75rem;">
+                        Aktif preset yok
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '<div class="mb-1"><small class="text-secondary fw-bold" style="font-size: 0.7rem;"><i class="fas fa-list me-1"></i>TUM PRESETLER</small></div>';
+
+            activePresets.forEach(p => {
+                const session = presetSessionStatsCache[p.id] || {};
+                const persistent = presetStatsCache[p.id] || {};
+                const isSelected = p.id === selectedPresetId;
+                const sCreated = session.created || 0;
+                const sDeleted = session.deleted || 0;
+                const sScanned = session.scanned || 0;
+                const sErrors = session.errors || 0;
+                const pCreated = persistent.created || 0;
+                const pActive = persistent.active || 0;
+
+                html += `
+                <div class="p-2 mb-1 rounded"
+                     style="background: ${isSelected ? 'rgba(124, 58, 237, 0.25)' : 'rgba(255,255,255,0.03)'};
+                            border: 1px solid ${isSelected ? 'rgba(124, 58, 237, 0.5)' : 'rgba(255,255,255,0.08)'};
+                            cursor: pointer; transition: all 0.2s;"
+                     onclick="selectPreset('${p.id}')">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <span style="font-size: 0.75rem; font-weight: 600;">${p.name}</span>
+                        <span class="badge bg-${p.game === 'valorant' ? 'danger' : p.game === 'lol' ? 'primary' : p.game === 'cs2' ? 'warning' : 'success'}"
+                              style="font-size: 0.6rem;">${p.game.toUpperCase()}</span>
+                    </div>
+                    <div class="d-flex justify-content-between" style="font-size: 0.65rem;">
+                        <span class="text-success" title="Olusturulan"><i class="fas fa-plus me-1"></i>${sCreated}</span>
+                        <span class="text-danger" title="Silinen"><i class="fas fa-minus me-1"></i>${sDeleted}</span>
+                        <span class="text-info" title="Taranan"><i class="fas fa-search me-1"></i>${sScanned}</span>
+                        <span class="text-warning" title="Hata"><i class="fas fa-exclamation-triangle me-1"></i>${sErrors}</span>
+                        <span class="text-secondary" title="Toplam/Aktif"><i class="fas fa-tags me-1"></i>${pCreated}/${pActive}</span>
+                    </div>
+                </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+        
+        // Render preset list
+        function renderPresetList() {
+            const list = document.getElementById('presetList');
+
+            if (presets.length === 0) {
+                list.innerHTML = `
+                    <div class="text-center text-secondary py-4">
+                        <i class="fas fa-inbox fa-2x mb-2"></i>
+                        <p>Henuz preset yok</p>
+                        <button class="btn btn-sm btn-primary" onclick="newPreset()">
+                            <i class="fas fa-plus me-1"></i>Yeni Olustur
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            list.innerHTML = presets.map(p => {
+                const stats = presetStatsCache[p.id] || {};
+                const sessionStats = presetSessionStatsCache[p.id] || {};
+                const activeCount = stats.active || 0;
+                
+                // Session stats
+                const sessionCreated = sessionStats.created || 0;
+                const sessionErrors = sessionStats.errors || 0;
+                const sessionScanned = sessionStats.scanned || 0;
+                
+                // Session indicator (renkli nokta)
+                const hasActivity = sessionCreated > 0 || sessionErrors > 0 || sessionScanned > 0;
+                
+                return `
+                <div class="preset-item ${p.active ? 'active' : ''} ${p.id === selectedPresetId ? 'selected' : ''}"
+                     onclick="selectPreset('${p.id}')">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <div class="preset-name">${p.name}</div>
+                            <div class="preset-game game-${p.game}">${getGameName(p.game)}</div>
+                        </div>
+                        <div class="text-end">
+                            <span class="preset-badge ${p.active ? 'badge-active' : 'badge-inactive'}">
+                                ${p.active ? 'Aktif' : 'Pasif'}
+                            </span>
+                            <div class="mt-1" style="font-size: 0.65rem;">
+                                <span class="text-success me-1" title="Kar Marji"><i class="fas fa-percentage"></i>${p.profit_margin ? Math.round((p.profit_margin - 1) * 100) : 45}</span>
+                                <span class="text-info" title="Aktif Ilan"><i class="fas fa-tags"></i> ${activeCount}</span>
+                            </div>
+                        </div>
+                    </div>
+                    ${hasActivity ? `
+                    <div class="mt-1 p-1 rounded" style="background: rgba(124, 58, 237, 0.15); font-size: 0.65rem;">
+                        <span class="text-secondary me-1"><i class="fas fa-clock"></i> Bu oturum:</span>
+                        <span class="text-success" title="Olusturulan"><i class="fas fa-plus"></i>${sessionCreated}</span>
+                        <span class="text-warning ms-1" title="Hata"><i class="fas fa-exclamation-triangle"></i>${sessionErrors}</span>
+                        <span class="text-info ms-1" title="Taranan"><i class="fas fa-search"></i>${sessionScanned}</span>
+                    </div>
+                    ` : ''}
+                    <div class="mt-1 text-secondary" style="font-size: 0.7rem;">
+                        ${formatFilters(p.filters)}
+                    </div>
+                </div>
+            `}).join('');
+        }
+
+        // Get game display name
+        function getGameName(game) {
+            const names = {
+                valorant: 'Valorant',
+                lol: 'League of Legends',
+                cs2: 'CS2',
+                fortnite: 'Fortnite'
+            };
+            return names[game] || game;
+        }
+
+        // Format filters for display
+        function formatFilters(filters) {
+            const parts = [];
+            if (filters.servers?.length) parts.push(filters.servers.join(', '));
+            if (filters.divisions?.length) parts.push(filters.divisions.join(', '));
+            if (filters.min_price) parts.push(`Min: ${filters.min_price}TL`);
+            if (filters.max_price) parts.push(`Max: ${filters.max_price}TL`);
+            return parts.join(' | ') || 'Filtre yok';
+        }
+
+        // Select a preset for editing
+        function selectPreset(id) {
+            selectedPresetId = id;
+            const preset = presets.find(p => p.id === id);
+
+            if (!preset) return;
+
+            document.getElementById('presetId').value = preset.id;
+            document.getElementById('presetName').value = preset.name;
+            document.getElementById('presetGame').value = preset.game;
+            document.getElementById('presetActive').checked = preset.active;
+            document.getElementById('minPrice').value = preset.filters.min_price || '';
+            document.getElementById('maxPrice').value = preset.filters.max_price || '';
+
+            // Kar marjını ayarla (varsayılan %45)
+            const profitPercent = preset.profit_margin ? Math.round((preset.profit_margin - 1) * 100) : 45;
+            document.getElementById('presetProfitMargin').value = profitPercent;
+            updateMarginMultiplier();
+
+            updateFilterOptions();
+
+            // Set selected servers
+            if (preset.filters.servers) {
+                preset.filters.servers.forEach(s => {
+                    const checkbox = document.getElementById(`server_${s}`);
+                    if (checkbox) checkbox.checked = true;
+                });
+            }
+
+            // Set selected divisions
+            if (preset.filters.divisions) {
+                preset.filters.divisions.forEach(d => {
+                    const checkbox = document.getElementById(`division_${d}`);
+                    if (checkbox) checkbox.checked = true;
+                });
+            }
+
+            // Valorant ozel filtreler
+            if (preset.game === 'valorant') {
+                document.getElementById('minAgent').value = preset.filters.min_agent || '';
+                document.getElementById('maxAgent').value = preset.filters.max_agent || '';
+                document.getElementById('minSkin').value = preset.filters.min_skin || '';
+                document.getElementById('maxSkin').value = preset.filters.max_skin || '';
+            }
+
+            // LoL ozel filtreler
+            if (preset.game === 'lol') {
+                document.getElementById('minChamps').value = preset.filters.min_champs || '';
+                document.getElementById('maxChamps').value = preset.filters.max_champs || '';
+                document.getElementById('minSkins').value = preset.filters.min_skins || '';
+                document.getElementById('maxSkins').value = preset.filters.max_skins || '';
+            }
+
+            renderPresetList();
+            
+            // Preset istatistiklerini yukle ve goster
+            loadPresetStats(id);
+            showPresetStats();
+        }
+        
+        // Preset istatistiklerini yukle
+        async function loadPresetStats(presetId) {
+            if (!presetId) return;
+
+            // Detay panelini göster
+            const detailPanel = document.getElementById('selectedPresetDetail');
+            if (detailPanel) detailPanel.style.display = 'block';
+
+            // Mini kartlarda seçimi güncelle
+            renderAllPresetStats();
+
+            try {
+                const res = await fetch(API + '/preset-stats/' + presetId);
+                const data = await res.json();
+
+                if (data.success) {
+                    const stats = data.stats;
+                    const sessionStats = data.session_stats || {};
+
+                    // Header'i guncelle
+                    document.getElementById('presetStatsHeader').innerHTML = `
+                        <span class="badge bg-primary">${data.name}</span>
+                    `;
+
+                    // Session stats (bu oturum)
+                    document.getElementById('presetSessionCreated').textContent = sessionStats.created || 0;
+                    document.getElementById('presetSessionDeleted').textContent = sessionStats.deleted || 0;
+                    document.getElementById('presetSessionErrors').textContent = sessionStats.errors || 0;
+                    document.getElementById('presetSessionScanned').textContent = sessionStats.scanned || 0;
+
+                    // Toplam stats (kalici)
+                    document.getElementById('presetStatCreated').textContent = stats.created || 0;
+                    document.getElementById('presetStatActive').textContent = stats.active || 0;
+
+                    // Zaman bilgilerini formatla
+                    document.getElementById('presetLastScan').textContent =
+                        stats.last_scan ? formatDateTime(stats.last_scan) : 'Henuz taranmadi';
+                }
+            } catch (e) {
+                console.error('Preset stats yuklenemedi:', e);
+            }
+        }
+        
+        // Tarih formatlama
+        function formatDateTime(isoString) {
+            if (!isoString) return '-';
+            try {
+                const date = new Date(isoString);
+                return date.toLocaleString('tr-TR', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            } catch (e) {
+                return isoString;
+            }
+        }
+        
+        // Session istatistiklerini goster
+        function showSessionStats() {
+            currentStatsView = 'session';
+            document.getElementById('sessionStatsPanel').style.display = 'block';
+            document.getElementById('presetStatsPanel').style.display = 'none';
+            document.getElementById('btnSessionStats').classList.add('active');
+            document.getElementById('btnPresetStats').classList.remove('active');
+        }
+        
+        // Preset istatistiklerini goster
+        function showPresetStats() {
+            currentStatsView = 'preset';
+            document.getElementById('sessionStatsPanel').style.display = 'none';
+            document.getElementById('presetStatsPanel').style.display = 'block';
+            document.getElementById('btnSessionStats').classList.remove('active');
+            document.getElementById('btnPresetStats').classList.add('active');
+
+            // Mini kartları her zaman render et
+            renderAllPresetStats();
+
+            // Secili preset varsa detay panelini göster
+            if (selectedPresetId) {
+                loadPresetStats(selectedPresetId);
+            } else {
+                const detailPanel = document.getElementById('selectedPresetDetail');
+                if (detailPanel) detailPanel.style.display = 'none';
+            }
+        }
+
+        // Generate UUID v4
+        function generateUUID() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                const r = Math.random() * 16 | 0;
+                const v = c === 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+        // Create new preset
+        function newPreset() {
+            selectedPresetId = generateUUID();
+            document.getElementById('presetForm').reset();
+            document.getElementById('presetId').value = selectedPresetId;
+            document.getElementById('presetName').value = '';
+            document.getElementById('presetGame').value = 'valorant';
+            document.getElementById('presetActive').checked = false;
+            document.getElementById('presetProfitMargin').value = 45;  // Varsayilan %45
+            updateMarginMultiplier();
+            updateFilterOptions();
+            renderPresetList();
+        }
+
+        // Kar marji carpanini guncelle
+        function updateMarginMultiplier() {
+            const percent = parseFloat(document.getElementById('presetProfitMargin').value) || 45;
+            const multiplier = 1 + (percent / 100);
+            document.getElementById('marginMultiplier').textContent = `${multiplier.toFixed(2)}x`;
+        }
+
+        // Update filter options based on game
+        function updateFilterOptions() {
+            const game = document.getElementById('presetGame').value;
+
+            // Server chips
+            const serverChips = document.getElementById('serverChips');
+            const servers = SERVER_OPTIONS[game] || [];
+
+            if (servers.length > 0) {
+                document.getElementById('serversSection').style.display = 'block';
+                serverChips.innerHTML = servers.map(s => `
+                    <input type="checkbox" class="filter-chip" id="server_${s}" value="${s}">
+                    <label for="server_${s}">${s}</label>
+                `).join('');
+            } else {
+                document.getElementById('serversSection').style.display = 'none';
+            }
+
+            // Division chips
+            const divisionChips = document.getElementById('divisionChips');
+            const divisions = DIVISION_OPTIONS[game] || [];
+
+            if (divisions.length > 0) {
+                document.getElementById('divisionsSection').style.display = 'block';
+                divisionChips.innerHTML = divisions.map(d => `
+                    <input type="checkbox" class="filter-chip" id="division_${d}" value="${d}">
+                    <label for="division_${d}">${d}</label>
+                `).join('');
+            } else {
+                document.getElementById('divisionsSection').style.display = 'none';
+            }
+
+            // Oyun bazli ozel filtreler
+            document.getElementById('valorantFiltersSection').style.display = (game === 'valorant') ? 'flex' : 'none';
+            document.getElementById('lolFiltersSection').style.display = (game === 'lol') ? 'flex' : 'none';
+
+            // Eski degerleri temizle
+            if (game !== 'valorant') {
+                document.getElementById('minAgent').value = '';
+                document.getElementById('maxAgent').value = '';
+                document.getElementById('minSkin').value = '';
+                document.getElementById('maxSkin').value = '';
+            }
+            if (game !== 'lol') {
+                document.getElementById('minChamps').value = '';
+                document.getElementById('maxChamps').value = '';
+                document.getElementById('minSkins').value = '';
+                document.getElementById('maxSkins').value = '';
+            }
+        }
+
+        // Save preset
+        async function savePreset() {
+            const id = document.getElementById('presetId').value;
+            const name = document.getElementById('presetName').value.trim();
+
+            if (!name) {
+                alert('Preset adi gerekli!');
+                return;
+            }
+
+            const game = document.getElementById('presetGame').value;
+
+            // Collect selected servers
+            const servers = [];
+            document.querySelectorAll('#serverChips input:checked').forEach(cb => {
+                servers.push(cb.value);
+            });
+
+            // Collect selected divisions
+            const divisions = [];
+            document.querySelectorAll('#divisionChips input:checked').forEach(cb => {
+                divisions.push(cb.value);
+            });
+
+            // Temel filtreler
+            const filters = {
+                servers: servers,
+                divisions: divisions,
+                min_price: parseInt(document.getElementById('minPrice').value) || null,
+                max_price: parseInt(document.getElementById('maxPrice').value) || null
+            };
+
+            // Valorant ozel filtreleri
+            if (game === 'valorant') {
+                const minAgent = parseInt(document.getElementById('minAgent').value);
+                const maxAgent = parseInt(document.getElementById('maxAgent').value);
+                const minSkin = parseInt(document.getElementById('minSkin').value);
+                const maxSkin = parseInt(document.getElementById('maxSkin').value);
+
+                if (minAgent) filters.min_agent = minAgent;
+                if (maxAgent) filters.max_agent = maxAgent;
+                if (minSkin) filters.min_skin = minSkin;
+                if (maxSkin) filters.max_skin = maxSkin;
+            }
+
+            // LoL ozel filtreleri
+            if (game === 'lol') {
+                const minChamps = parseInt(document.getElementById('minChamps').value);
+                const maxChamps = parseInt(document.getElementById('maxChamps').value);
+                const minSkins = parseInt(document.getElementById('minSkins').value);
+                const maxSkins = parseInt(document.getElementById('maxSkins').value);
+
+                if (minChamps) filters.min_champs = minChamps;
+                if (maxChamps) filters.max_champs = maxChamps;
+                if (minSkins) filters.min_skins = minSkins;
+                if (maxSkins) filters.max_skins = maxSkins;
+            }
+
+            // Ensure valid ID - generate UUID if empty or invalid
+            let presetId = id;
+            if (!presetId || presetId === '' || presetId.startsWith('new_')) {
+                presetId = generateUUID();
+            }
+
+            // Mevcut preset'in custom_prompt'unu al (sadece ozellestirildiyse)
+            const existingPreset = presets.find(p => p.id === presetId) || presets.find(p => p.id === id);
+            const customPrompt = existingPreset?.custom_prompt || null;
+
+            // Kar marjını al (yüzdeyi çarpana çevir)
+            const profitPercent = parseFloat(document.getElementById('presetProfitMargin').value) || 45;
+            const profitMargin = 1 + (profitPercent / 100);
+
+            const preset = {
+                id: presetId,
+                name: name,
+                game: game,
+                active: document.getElementById('presetActive').checked,
+                filters: filters,
+                profit_margin: Math.round(profitMargin * 100) / 100  // Kar marji (ornek: 1.45)
+            };
+
+            // Sadece ozellestirilmis prompt varsa kaydet
+            if (customPrompt) {
+                preset.custom_prompt = customPrompt;
+            }
+
+            // Update or add preset
+            const existingIndex = presets.findIndex(p => p.id === presetId);
+            if (existingIndex > -1) {
+                presets[existingIndex] = preset;
+            } else {
+                // Also check if we're updating an old preset with empty ID
+                const oldIndex = presets.findIndex(p => p.id === id);
+                if (oldIndex > -1) {
+                    presets[oldIndex] = preset;
+                } else {
+                    presets.push(preset);
+                }
+            }
+
+            // Save to server
+            try {
+                const res = await fetch(API + '/presets', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ presets: presets })
+                });
+
+                if (res.ok) {
+                    selectedPresetId = presetId;
+                    // API'den tekrar yükle (senkronizasyon)
+                    await loadPresets();
+                    // Yeni kaydedilen preset'i seç
+                    selectPreset(presetId);
+                }
+            } catch (e) {
+                alert('Kaydetme hatasi: ' + e.message);
+            }
+        }
+
+        // Delete preset
+        async function deletePreset() {
+            if (!selectedPresetId) return;
+
+            const preset = presets.find(p => p.id === selectedPresetId);
+            const presetName = preset ? preset.name : selectedPresetId;
+
+            // Detaylı onay mesajı
+            const confirmMessage = `"${presetName}" presetini silmek istediginizden emin misiniz?
+
+Bu islem ile:
+- Preset ayarlari silinecek
+- Tum linkler silinecek (links.json)
+- G2G'deki ilanlar silinecek
+- Detaylar temizlenecek (ultra_details.json)
+- Istatistikler silinecek (preset_stats.json)
+- Basarisiz kuyruk temizlenecek (failed_queue.json)
+- Hata kayitlari silinecek (errors.json)
+- Teslimat kayitlari silinecek (delivery_queue.json)
+
+Bu islem geri alinamaz!`;
+
+            if (!confirm(confirmMessage)) return;
+
+            try {
+                // Yeni silme API'sini kullan
+                const res = await fetch(API + '/presets/delete', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ preset_id: selectedPresetId })
+                });
+
+                const result = await res.json();
+
+                if (result.success) {
+                    // Başarı mesajı
+                    let message = `Preset basariyla silindi!\n\n`;
+                    message += `- ${result.deleted_links || 0} link silindi\n`;
+                    message += `- ${result.deleted_offers || 0} G2G ilan silindi\n`;
+                    message += `- ${result.deleted_details || 0} detay temizlendi\n`;
+                    message += `- ${result.deleted_stats || 0} istatistik silindi\n`;
+                    message += `- ${result.deleted_queue_items || 0} kuyruk kaydi silindi\n`;
+                    message += `- ${result.deleted_errors || 0} hata kaydi silindi\n`;
+                    message += `- ${result.deleted_delivery || 0} teslimat kaydi silindi\n`;
+                    message += `\nToplam: ${result.total_deleted || 0} kayit temizlendi`;
+
+                    if (result.errors && result.errors.length > 0) {
+                        message += `\n\nUyarilar:\n${result.errors.join('\n')}`;
+                    }
+
+                    alert(message);
+
+                    // UI'ı güncelle
+                    presets = presets.filter(p => p.id !== selectedPresetId);
+                    selectedPresetId = null;
+                    document.getElementById('presetForm').reset();
+                    await loadPresets();
+                } else {
+                    alert('Silme hatasi: ' + (result.error || 'Bilinmeyen hata'));
+                }
+            } catch (e) {
+                alert('Silme hatasi: ' + e.message);
+            }
+        }
+
+        // Start bot
+        async function startBot() {
+            try {
+                const res = await fetch(API + '/control', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'start' })
+                });
+                const data = await res.json();
+                if (!data.success) {
+                    alert(data.message || 'Baslatilamadi');
+                }
+            } catch (e) {
+                alert('Baglanti hatasi: ' + e.message);
+            }
+        }
+
+        // Stop bot
+        async function stopBot() {
+            try {
+                await fetch(API + '/control', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'stop' })
+                });
+            } catch (e) {
+                alert('Baglanti hatasi: ' + e.message);
+            }
+        }
+
+        // Kill system (Ctrl+C - tamamen kapat)
+        async function killSystem() {
+            if (!confirm('Sistemi tamamen kapatmak istediginize emin misiniz?\nTerminal kapanacak, bot tamamen duracak.')) return;
+            try {
+                await fetch(API + '/control', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'kill' })
+                });
+            } catch (e) {
+                // Bağlantı kopacak çünkü sunucu kapanıyor - normal
+            }
+        }
+
+        // Update status
+        async function updateStatus() {
+            try {
+                const res = await fetch(API + '/status');
+                const data = await res.json();
+
+                // Update system status
+                const statusEl = document.getElementById('systemStatus');
+                if (data.running) {
+                    statusEl.innerHTML = '<span class="status-indicator status-running"></span>CALISIYOR';
+                } else {
+                    statusEl.innerHTML = '<span class="status-indicator status-stopped"></span>DURDURULDU';
+                }
+
+                // Update current preset
+                document.getElementById('currentPreset').textContent = data.current_preset || '-';
+                document.getElementById('currentStatus').textContent = data.status || 'Bekleniyor';
+
+                // Update stats
+                document.getElementById('statCreated').textContent = data.stats?.created || 0;
+                document.getElementById('statDelivery').textContent = data.delivery_completed || 0;
+                document.getElementById('statDeleted').textContent = data.stats?.deleted || 0;
+                document.getElementById('statScanned').textContent = data.stats?.total_scanned || 0;
+                document.getElementById('statErrors').textContent = data.stats?.errors || 0;
+
+                // Update kur
+                document.getElementById('kurValue').textContent = (data.kur || 0).toFixed(2);
+
+                // Update logs
+                if (data.log && data.log.length > 0) {
+                    const logPanel = document.getElementById('logPanel');
+                    logPanel.innerHTML = data.log.slice(-20).reverse().map(entry => `
+                        <div class="log-entry log-${entry.level}">
+                            <span class="log-time">${entry.time}</span>
+                            ${entry.message}
+                        </div>
+                    `).join('');
+                }
+
+            } catch (e) {
+                console.error('Status update error:', e);
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadPrompts();
+            loadPresets();
+            updateFilterOptions();
+            updateStatus();
+
+            // Poll for status updates
+            setInterval(updateStatus, 2000);
+
+            // Preset istatistiklerini periyodik guncelle (10 saniye)
+            setInterval(() => {
+                loadAllPresetStats();
+                // Secili preset varsa ve preset gorunumundeyse guncelle
+                if (selectedPresetId && currentStatsView === 'preset') {
+                    loadPresetStats(selectedPresetId);
+                }
+            }, 10000);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,283 @@
+# G2G OpenAPI
+
+## Docs
+- Overview [Introduction](https://docs.g2g.com/introduction-1237151m0.md): 
+- Overview [API Versions](https://docs.g2g.com/api-versions-1237162m0.md): 
+- Overview [G2G Official - OpenAPI Sample](https://docs.g2g.com/g2g-official-openapi-sample-1237163m0.md): 
+- Overview [Order Status Flow](https://docs.g2g.com/order-status-flow-1237158m0.md): 
+- Authentication [Authentication Intro](https://docs.g2g.com/authentication-intro-1237152m0.md): 
+- Authentication [Setup API Key](https://docs.g2g.com/setup-api-key-1237153m0.md): 
+- Authentication [Verifying Signatures](https://docs.g2g.com/verifying-signatures-1237154m0.md): 
+- API Call Flows [Create Offer Flow](https://docs.g2g.com/create-offer-flow-1237155m0.md): 
+- API Call Flows [Upload Code Flow](https://docs.g2g.com/upload-code-flow-1237156m0.md): 
+- API Call Flows [Order Delivery Flow](https://docs.g2g.com/order-delivery-flow-1237157m0.md): 
+- Error Handling [Error Handling](https://docs.g2g.com/error-handling-1237159m0.md): 
+- Error Handling [Status Code](https://docs.g2g.com/status-code-1237160m0.md): 
+- Error Handling [Error Code](https://docs.g2g.com/error-code-1237161m0.md): 
+- WEBHOOK [Message Signature](https://docs.g2g.com/message-signature-1237168m0.md): 
+- WEBHOOK > Events [Event Overview](https://docs.g2g.com/event-overview-1237169m0.md): 
+- WEBHOOK > AboutWebhooks [Webhooks Intro](https://docs.g2g.com/webhooks-intro-1237164m0.md): 
+- WEBHOOK > AboutWebhooks [How Webhooks Work](https://docs.g2g.com/how-webhooks-work-1237165m0.md): 
+- WEBHOOK > AboutWebhooks [Setup Webhooks](https://docs.g2g.com/setup-webhooks-1237166m0.md): 
+- WEBHOOK > AboutWebhooks [Webhook Resend Policy](https://docs.g2g.com/webhook-resend-policy-1237167m0.md): 
+- Release Notes > V2 Breaking Changes [  V2 Breaking Changes](https://docs.g2g.com/-v2-breaking-changes-1237170m0.md): 
+- Release Notes > V2 Breaking Changes [Migrate To V2](https://docs.g2g.com/migrate-to-v2-1237171m0.md): 
+- Release Notes > Changelog > June 2025 [2025-06-11](https://docs.g2g.com/2025-06-11-1237172m0.md): 
+- Release Notes > Changelog > March 2023 [2023-03-13](https://docs.g2g.com/2023-03-13-1237173m0.md): 
+- Release Notes > Changelog > December 2022 [2022-12-21](https://docs.g2g.com/2022-12-21-1237174m0.md): 
+- Release Notes > Changelog > November 2022 [2022-11-10](https://docs.g2g.com/2022-11-10-1237175m0.md): 
+- Release Notes > Changelog > September 2022 [2022-09-06](https://docs.g2g.com/2022-09-06-1237176m0.md): 
+- Release Notes > Changelog > September 2022 [2022-09-01](https://docs.g2g.com/2022-09-01-1237178m0.md): 
+
+## API Docs
+- APIS (Support Gift Card & Top Up Only) > Product [Get Services](https://docs.g2g.com/get-services-18583479e0.md): Get list of all available services.
+- APIS (Support Gift Card & Top Up Only) > Product [Get Brands](https://docs.g2g.com/get-brands-18583480e0.md): Get brands of a service.
+- APIS (Support Gift Card & Top Up Only) > Product [Get Products](https://docs.g2g.com/get-products-18583481e0.md): Get products of a brand.
+- APIS (Support Gift Card & Top Up Only) > Product [Get Attributes](https://docs.g2g.com/get-attributes-18583482e0.md): Get attributes of a product.
+- APIS (Support Gift Card & Top Up Only) > Product [Post Pricing](https://docs.g2g.com/post-pricing-18583483e0.md): Get recommended pricing for a product.
+- APIS (Support Gift Card & Top Up Only) > Offer [Create Offer](https://docs.g2g.com/create-offer-18583484e0.md): Create a new offer.
+- APIS (Support Gift Card & Top Up Only) > Offer [Get Offer](https://docs.g2g.com/get-offer-18583485e0.md): Get a specific offer based on offer id.
+- APIS (Support Gift Card & Top Up Only) > Offer [Update Offer](https://docs.g2g.com/update-offer-18583486e0.md): Update a specific offer based on offer id.
+- APIS (Support Gift Card & Top Up Only) > Offer [Delete Offer](https://docs.g2g.com/delete-offer-18583487e0.md): Delete a specific offer based on offer id.
+- APIS (Support Gift Card & Top Up Only) > Offer [Search Offers](https://docs.g2g.com/search-offers-18583488e0.md): Search for a list of offers.
+- APIS (Support Gift Card & Top Up Only) > Order [Get Order](https://docs.g2g.com/get-order-18583489e0.md): Get the summary information of your sold order.
+- APIS (Support Gift Card & Top Up Only) > Order [Get Deliveries](https://docs.g2g.com/get-deliveries-18583490e0.md): Get delivery info based to specific order id.
+- APIS (Support Gift Card & Top Up Only) > Order [Deliver Code](https://docs.g2g.com/deliver-code-18583491e0.md): Deliver Codes to specific order when seller received webhook for delivery.
+- APIS (Support Gift Card & Top Up Only) > Order [Get Delivery Status](https://docs.g2g.com/get-delivery-status-18583492e0.md): Get the status of your delivery operation.
+- APIS (Support Gift Card & Top Up Only) > Order [Patch Delivery](https://docs.g2g.com/patch-delivery-18583493e0.md): Update delivered quantity for manual delivery.
+- APIS (Support Gift Card & Top Up Only) > Inventory [Upload Code](https://docs.g2g.com/upload-code-18583494e0.md): Upload code to a specific offer's inventory based on offer id.
+- APIS (Support Gift Card & Top Up Only) > Inventory [View Code Info](https://docs.g2g.com/view-code-info-18583495e0.md): View code's info of a specific offer's inventory based on offer id.
+- APIS (Support Gift Card & Top Up Only) > Inventory [Delete Code](https://docs.g2g.com/delete-code-18583496e0.md): Delete code of a specific offer's inventory based on offer id and inventory_id.
+- APIS (Support Gift Card & Top Up Only) > Store [View Store Settings](https://docs.g2g.com/view-store-settings-18583497e0.md): View seller's Store Settings
+- APIS (Support Gift Card & Top Up Only) > Log [Search Webhook Logs](https://docs.g2g.com/search-webhook-logs-18583498e0.md): Search webhook logs.
+- WEBHOOK > Events [order.created](https://docs.g2g.com/order-created-18583499e0.md): ⚠️ **Note:** This is a webhook **event** — not a request that your app sends.
+- WEBHOOK > Events [order.confirmed](https://docs.g2g.com/order-confirmed-18583500e0.md): ⚠️ **Note:** This is a webhook **event** — not a request that your app sends.
+- WEBHOOK > Events [order.delivery_status](https://docs.g2g.com/order-delivery-status-18583501e0.md): ⚠️ **Note:** This is a webhook **event** — not a request that your app sends.
+- WEBHOOK > Events [order.api_delivery](https://docs.g2g.com/order-api-delivery-18583502e0.md): ⚠️ **Note:** This is a webhook **event** — not a request that your app sends.
+- WEBHOOK > Events [order.cancelled](https://docs.g2g.com/order-cancelled-18583503e0.md): ⚠️ **Note:** This is a webhook **event** — not a request that your app sends.
+- WEBHOOK > Events [order.refunded](https://docs.g2g.com/order-refunded-18583504e0.md): ⚠️ **Note:** This is a webhook **event** — not a request that your app sends.
+- WEBHOOK > Events [order.completed](https://docs.g2g.com/order-completed-18583505e0.md): ⚠️ **Note:** This is a webhook **event** — not a request that your app sends.
+- WEBHOOK > Events [order.rollback_cancelled](https://docs.g2g.com/order-rollback-cancelled-18583506e0.md): ⚠️ **Note:** This is a webhook **event** — not a request that your app sends.
+- WEBHOOK > Events [order.rollback_completed](https://docs.g2g.com/order-rollback-completed-18583507e0.md): 
+- WEBHOOK > Events [order.case_opened](https://docs.g2g.com/order-case-opened-18583508e0.md): 
+- WEBHOOK > Events [offer.low_stock](https://docs.g2g.com/offer-low-stock-18583509e0.md): 
+
+## Schemas
+- Schemas [total_commission_fee_tax](https://docs.g2g.com/total-commission-fee-tax-8591870d0.md): 
+- Schemas [sub_attribute_list -2](https://docs.g2g.com/sub-attribute-list-2-8726181d0.md): 
+- Schemas [attribute_list -2](https://docs.g2g.com/attribute-list-2-8726182d0.md): 
+- Schemas [attribute_group_list -2](https://docs.g2g.com/attribute-group-list-2-8726190d0.md): 
+- Schemas [code](https://docs.g2g.com/code-7697234d0.md): 
+- Schemas [message](https://docs.g2g.com/message-7697235d0.md): 
+- Schemas [warning](https://docs.g2g.com/warning-7697236d0.md): 
+- Schemas [request_id](https://docs.g2g.com/request-id-7697237d0.md): 
+- Schemas [service_id](https://docs.g2g.com/service-id-7697238d0.md): 
+- Schemas [service_name](https://docs.g2g.com/service-name-7697239d0.md): 
+- Schemas [delivery_method](https://docs.g2g.com/delivery-method-7697240d0.md): 
+- Schemas [get_services](https://docs.g2g.com/get-services-7697241d0.md): 
+- Schemas [default_response](https://docs.g2g.com/default-response-7697242d0.md): 
+- Schemas [brand_id](https://docs.g2g.com/brand-id-7697243d0.md): 
+- Schemas [brand_name](https://docs.g2g.com/brand-name-7697244d0.md): 
+- Schemas [after](https://docs.g2g.com/after-7697245d0.md): 
+- Schemas [get_brands](https://docs.g2g.com/get-brands-7697246d0.md): 
+- Schemas [product_id](https://docs.g2g.com/product-id-7697247d0.md): 
+- Schemas [product_name](https://docs.g2g.com/product-name-7697248d0.md): 
+- Schemas [region_name](https://docs.g2g.com/region-name-7697249d0.md): 
+- Schemas [get_products](https://docs.g2g.com/get-products-7697250d0.md): 
+- Schemas [attribute_group_id](https://docs.g2g.com/attribute-group-id-7697251d0.md): 
+- Schemas [attribute_id](https://docs.g2g.com/attribute-id-7697252d0.md): 
+- Schemas [attribute_name](https://docs.g2g.com/attribute-name-7697253d0.md): 
+- Schemas [sub_attribute_list](https://docs.g2g.com/sub-attribute-list-7697254d0.md): 
+- Schemas [attribute_list](https://docs.g2g.com/attribute-list-7697255d0.md): 
+- Schemas [get_attributes](https://docs.g2g.com/get-attributes-7697256d0.md): 
+- Schemas [min_qty](https://docs.g2g.com/min-qty-7697257d0.md): 
+- Schemas [api_qty](https://docs.g2g.com/api-qty-7697258d0.md): 
+- Schemas [low_stock_alert_qty](https://docs.g2g.com/low-stock-alert-qty-7697259d0.md): 
+- Schemas [currency](https://docs.g2g.com/currency-7697260d0.md): 
+- Schemas [unit_price](https://docs.g2g.com/unit-price-7697261d0.md): 
+- Schemas [wholesale_min](https://docs.g2g.com/wholesale-min-7697262d0.md): 
+- Schemas [wholesale_max](https://docs.g2g.com/wholesale-max-7697263d0.md): 
+- Schemas [sales_territory_settings](https://docs.g2g.com/sales-territory-settings-7697264d0.md): 
+- Schemas [post_offer](https://docs.g2g.com/post-offer-7697265d0.md): 
+- Schemas [offer_id](https://docs.g2g.com/offer-id-7697266d0.md): 
+- Schemas [seller_id](https://docs.g2g.com/seller-id-7697267d0.md): 
+- Schemas [offer_type](https://docs.g2g.com/offer-type-7697268d0.md): 
+- Schemas [delivery_type](https://docs.g2g.com/delivery-type-7697269d0.md): 
+- Schemas [region_id](https://docs.g2g.com/region-id-7697270d0.md): 
+- Schemas [offer_title](https://docs.g2g.com/offer-title-7697271d0.md): 
+- Schemas [offer_description](https://docs.g2g.com/offer-description-7697272d0.md): 
+- Schemas [offer_status](https://docs.g2g.com/offer-status-7697273d0.md): 
+- Schemas [offer_currency](https://docs.g2g.com/offer-currency-7697274d0.md): 
+- Schemas [available_qty](https://docs.g2g.com/available-qty-7697275d0.md): 
+- Schemas [offer_attributes](https://docs.g2g.com/offer-attributes-7697276d0.md): 
+- Schemas [wholesale_details](https://docs.g2g.com/wholesale-details-7697277d0.md): 
+- Schemas [created_at](https://docs.g2g.com/created-at-7697278d0.md): 
+- Schemas [updated_at](https://docs.g2g.com/updated-at-7697279d0.md): 
+- Schemas [post_offers](https://docs.g2g.com/post-offers-7697280d0.md): 
+- Schemas [code_label](https://docs.g2g.com/code-label-7697281d0.md): 
+- Schemas [get_offers](https://docs.g2g.com/get-offers-7697282d0.md): 
+- Schemas [success](https://docs.g2g.com/success-7697283d0.md): 
+- Schemas [delete_offers](https://docs.g2g.com/delete-offers-7697284d0.md): 
+- Schemas [patch_offers](https://docs.g2g.com/patch-offers-7697285d0.md): 
+- Schemas [patch_offers-2](https://docs.g2g.com/patch-offers-2-7697286d0.md): 
+- Schemas [order_id](https://docs.g2g.com/order-id-7697287d0.md): 
+- Schemas [seller_store_name](https://docs.g2g.com/seller-store-name-7697288d0.md): 
+- Schemas [buyer_id](https://docs.g2g.com/buyer-id-7697289d0.md): 
+- Schemas [order_status](https://docs.g2g.com/order-status-7697290d0.md): 
+- Schemas [amount](https://docs.g2g.com/amount-7697291d0.md): 
+- Schemas [properties_unit_price](https://docs.g2g.com/properties-unit-price-7697292d0.md): 
+- Schemas [properties_currency](https://docs.g2g.com/properties-currency-7697293d0.md): 
+- Schemas [purchased_qty](https://docs.g2g.com/purchased-qty-7697294d0.md): 
+- Schemas [delivered_qty](https://docs.g2g.com/delivered-qty-7697295d0.md): 
+- Schemas [refunded_qty](https://docs.g2g.com/refunded-qty-7697296d0.md): 
+- Schemas [defected_qty](https://docs.g2g.com/defected-qty-7697297d0.md): 
+- Schemas [replacement_qty](https://docs.g2g.com/replacement-qty-7697298d0.md): 
+- Schemas [properties_created_at](https://docs.g2g.com/properties-created-at-7697299d0.md): 
+- Schemas [properties_updated_at](https://docs.g2g.com/properties-updated-at-7697300d0.md): 
+- Schemas [get_orders](https://docs.g2g.com/get-orders-7697301d0.md): 
+- Schemas [delivery_id](https://docs.g2g.com/delivery-id-7697302d0.md): 
+- Schemas [codes](https://docs.g2g.com/codes-7697303d0.md): 
+- Schemas [post_delivery](https://docs.g2g.com/post-delivery-7697304d0.md): 
+- Schemas [post_delivery-2](https://docs.g2g.com/post-delivery-2-7697305d0.md): 
+- Schemas [properties_offer_id](https://docs.g2g.com/properties-offer-id-7697306d0.md): 
+- Schemas [undelivered_qty](https://docs.g2g.com/undelivered-qty-7697307d0.md): 
+- Schemas [total_delivered_qty](https://docs.g2g.com/total-delivered-qty-7697308d0.md): 
+- Schemas [delivery_summary](https://docs.g2g.com/delivery-summary-7697309d0.md): 
+- Schemas [get_delivery](https://docs.g2g.com/get-delivery-7697310d0.md): 
+- Schemas [content](https://docs.g2g.com/content-7697311d0.md): 
+- Schemas [content_type](https://docs.g2g.com/content-type-7697312d0.md): 
+- Schemas [reference_id](https://docs.g2g.com/reference-id-7697313d0.md): 
+- Schemas [post_inv_items](https://docs.g2g.com/post-inv-items-7697314d0.md): 
+- Schemas [item_id](https://docs.g2g.com/item-id-7697315d0.md): 
+- Schemas [post_inv_items-2](https://docs.g2g.com/post-inv-items-2-7697316d0.md): 
+- Schemas [expired_at](https://docs.g2g.com/expired-at-7697317d0.md): 
+- Schemas [status](https://docs.g2g.com/status-7697318d0.md): 
+- Schemas [get_inv_items](https://docs.g2g.com/get-inv-items-7697319d0.md): 
+- Schemas [properties_success](https://docs.g2g.com/properties-success-7697320d0.md): 
+- Schemas [delete_inv_items](https://docs.g2g.com/delete-inv-items-7697321d0.md): 
+- Schemas [user_id](https://docs.g2g.com/user-id-7697322d0.md): 
+- Schemas [account_status](https://docs.g2g.com/account-status-7697323d0.md): 
+- Schemas [seller_status](https://docs.g2g.com/seller-status-7697324d0.md): 
+- Schemas [selling_currencies](https://docs.g2g.com/selling-currencies-7697325d0.md): 
+- Schemas [get_store](https://docs.g2g.com/get-store-7697326d0.md): 
+- Schemas [event_sent_from](https://docs.g2g.com/event-sent-from-7697327d0.md): 
+- Schemas [event_sent_to](https://docs.g2g.com/event-sent-to-7697328d0.md): 
+- Schemas [event_id](https://docs.g2g.com/event-id-7697329d0.md): 
+- Schemas [event_type](https://docs.g2g.com/event-type-7697330d0.md): 
+- Schemas [http_status](https://docs.g2g.com/http-status-7697331d0.md): 
+- Schemas [filter](https://docs.g2g.com/filter-7697332d0.md): 
+- Schemas [limit](https://docs.g2g.com/limit-7697333d0.md): 
+- Schemas [sort_order](https://docs.g2g.com/sort-order-7697334d0.md): 
+- Schemas [properties_after](https://docs.g2g.com/properties-after-7697335d0.md): 
+- Schemas [search_webhook_logs](https://docs.g2g.com/search-webhook-logs-7697336d0.md): 
+- Schemas [webhook_url](https://docs.g2g.com/webhook-url-7697337d0.md): 
+- Schemas [http_request](https://docs.g2g.com/http-request-7697338d0.md): 
+- Schemas [response_time](https://docs.g2g.com/response-time-7697339d0.md): 
+- Schemas [event_sent_at](https://docs.g2g.com/event-sent-at-7697340d0.md): 
+- Schemas [search_log_results](https://docs.g2g.com/search-log-results-7697341d0.md): 
+- Schemas [search_webhook_logs-2](https://docs.g2g.com/search-webhook-logs-2-7697342d0.md): 
+- Schemas [category_name](https://docs.g2g.com/category-name-7697343d0.md): 
+- Schemas [category_id](https://docs.g2g.com/category-id-7697344d0.md): 
+- Schemas [sub_categories](https://docs.g2g.com/sub-categories-7697345d0.md): 
+- Schemas [categories](https://docs.g2g.com/categories-7697346d0.md): 
+- Schemas [get_services-2](https://docs.g2g.com/get-services-2-7697347d0.md): 
+- Schemas [get_products-2](https://docs.g2g.com/get-products-2-7697348d0.md): 
+- Schemas [attribute_group_name](https://docs.g2g.com/attribute-group-name-7697349d0.md): 
+- Schemas [input_field](https://docs.g2g.com/input-field-7697350d0.md): 
+- Schemas [input_settings](https://docs.g2g.com/input-settings-7697351d0.md): 
+- Schemas [is_required](https://docs.g2g.com/is-required-7697352d0.md): 
+- Schemas [attribute_group_list](https://docs.g2g.com/attribute-group-list-7697353d0.md): 
+- Schemas [delivery_code](https://docs.g2g.com/delivery-code-7697354d0.md): 
+- Schemas [delivery_method_id](https://docs.g2g.com/delivery-method-id-7697355d0.md): 
+- Schemas [delivery_method_name](https://docs.g2g.com/delivery-method-name-7697356d0.md): 
+- Schemas [delivery_method_list](https://docs.g2g.com/delivery-method-list-7697357d0.md): 
+- Schemas [additional_info_list](https://docs.g2g.com/additional-info-list-7697358d0.md): 
+- Schemas [get_attributes-2](https://docs.g2g.com/get-attributes-2-7697359d0.md): 
+- Schemas [post_pricing](https://docs.g2g.com/post-pricing-7697360d0.md): 
+- Schemas [post_pricing-2](https://docs.g2g.com/post-pricing-2-7697361d0.md): 
+- Schemas [other_pricing](https://docs.g2g.com/other-pricing-7697362d0.md): 
+- Schemas [other_wholesale_details](https://docs.g2g.com/other-wholesale-details-7697363d0.md): 
+- Schemas [delivery_method_ids](https://docs.g2g.com/delivery-method-ids-7697364d0.md): 
+- Schemas [post_offer-2](https://docs.g2g.com/post-offer-2-7697365d0.md): 
+- Schemas [delivery_speed](https://docs.g2g.com/delivery-speed-7697366d0.md): 
+- Schemas [post_offers-2](https://docs.g2g.com/post-offers-2-7697367d0.md): 
+- Schemas [get_offers-2](https://docs.g2g.com/get-offers-2-7697368d0.md): 
+- Schemas [patch_offers-3](https://docs.g2g.com/patch-offers-3-7697369d0.md): 
+- Schemas [patch_offers-4](https://docs.g2g.com/patch-offers-4-7697370d0.md): 
+- Schemas [query](https://docs.g2g.com/query-7697371d0.md): 
+- Schemas [properties_filter](https://docs.g2g.com/properties-filter-7697372d0.md): 
+- Schemas [page_size](https://docs.g2g.com/page-size-7697373d0.md): 
+- Schemas [page](https://docs.g2g.com/page-7697374d0.md): 
+- Schemas [list_offers](https://docs.g2g.com/list-offers-7697375d0.md): 
+- Schemas [list_offers-2](https://docs.g2g.com/list-offers-2-7697376d0.md): 
+- Schemas [delivery_list](https://docs.g2g.com/delivery-list-7697377d0.md): 
+- Schemas [properties_after-2](https://docs.g2g.com/properties-after-2-7697378d0.md): 
+- Schemas [get_deliveries](https://docs.g2g.com/get-deliveries-7697379d0.md): 
+- Schemas [delivery_issue](https://docs.g2g.com/delivery-issue-7697380d0.md): 
+- Schemas [delivered_at](https://docs.g2g.com/delivered-at-7697381d0.md): 
+- Schemas [properties_reference_id](https://docs.g2g.com/properties-reference-id-7697382d0.md): 
+- Schemas [patch_delivery](https://docs.g2g.com/patch-delivery-7697383d0.md): 
+- Schemas [patch_delivery-2](https://docs.g2g.com/patch-delivery-2-7697384d0.md): 
+- Schemas [properties_request_id](https://docs.g2g.com/properties-request-id-7697385d0.md): 
+- Schemas [event_happened_at](https://docs.g2g.com/event-happened-at-7697386d0.md): 
+- Schemas [order_item_id](https://docs.g2g.com/order-item-id-7697387d0.md): 
+- Schemas [order_sub_status](https://docs.g2g.com/order-sub-status-7697388d0.md): 
+- Schemas [order_payment_status](https://docs.g2g.com/order-payment-status-7697389d0.md): 
+- Schemas [properties_seller_id](https://docs.g2g.com/properties-seller-id-7697390d0.md): 
+- Schemas [properties_buyer_id](https://docs.g2g.com/properties-buyer-id-7697391d0.md): 
+- Schemas [properties_offer_currency](https://docs.g2g.com/properties-offer-currency-7697392d0.md): 
+- Schemas [checkout_currency](https://docs.g2g.com/checkout-currency-7697393d0.md): 
+- Schemas [properties_unit_price-2](https://docs.g2g.com/properties-unit-price-2-7697394d0.md): 
+- Schemas [properties_amount](https://docs.g2g.com/properties-amount-7697395d0.md): 
+- Schemas [refunded_amount](https://docs.g2g.com/refunded-amount-7697396d0.md): 
+- Schemas [commission_fee](https://docs.g2g.com/commission-fee-7697397d0.md): 
+- Schemas [commission_fee_rate](https://docs.g2g.com/commission-fee-rate-7697398d0.md): 
+- Schemas [offer_service_type](https://docs.g2g.com/offer-service-type-7697399d0.md): 
+- Schemas [properties_purchased_qty](https://docs.g2g.com/properties-purchased-qty-7697400d0.md): 
+- Schemas [properties_delivered_qty](https://docs.g2g.com/properties-delivered-qty-7697401d0.md): 
+- Schemas [properties_refunded_qty](https://docs.g2g.com/properties-refunded-qty-7697402d0.md): 
+- Schemas [properties_defected_qty](https://docs.g2g.com/properties-defected-qty-7697403d0.md): 
+- Schemas [properties_replacement_qty](https://docs.g2g.com/properties-replacement-qty-7697404d0.md): 
+- Schemas [order_created_at](https://docs.g2g.com/order-created-at-7697405d0.md): 
+- Schemas [order_base](https://docs.g2g.com/order-base-7697406d0.md): 
+- Schemas [properties_other_pricing](https://docs.g2g.com/properties-other-pricing-7697407d0.md): 
+- Schemas [order_created](https://docs.g2g.com/order-created-7697408d0.md): 
+- Schemas [order_confirmed](https://docs.g2g.com/order-confirmed-7697409d0.md): 
+- Schemas [properties_order_id](https://docs.g2g.com/properties-order-id-7697410d0.md): 
+- Schemas [properties_undelivered_qty](https://docs.g2g.com/properties-undelivered-qty-7697411d0.md): 
+- Schemas [order_delivery_base](https://docs.g2g.com/order-delivery-base-7697412d0.md): 
+- Schemas [properties_delivery_id](https://docs.g2g.com/properties-delivery-id-7697413d0.md): 
+- Schemas [delivery_mode](https://docs.g2g.com/delivery-mode-7697414d0.md): 
+- Schemas [case_id](https://docs.g2g.com/case-id-7697415d0.md): 
+- Schemas [requested_qty](https://docs.g2g.com/requested-qty-7697416d0.md): 
+- Schemas [delivery_status](https://docs.g2g.com/delivery-status-7697417d0.md): 
+- Schemas [properties_delivered_at](https://docs.g2g.com/properties-delivered-at-7697418d0.md): 
+- Schemas [delivery_issues](https://docs.g2g.com/delivery-issues-7697419d0.md): 
+- Schemas [order_delivery_status](https://docs.g2g.com/order-delivery-status-7697420d0.md): 
+- Schemas [delivery_method_code](https://docs.g2g.com/delivery-method-code-7697421d0.md): 
+- Schemas [attribute_key](https://docs.g2g.com/attribute-key-7697422d0.md): 
+- Schemas [attribute_value](https://docs.g2g.com/attribute-value-7697423d0.md): 
+- Schemas [value](https://docs.g2g.com/value-7697424d0.md): 
+- Schemas [properties_delivery_method_list](https://docs.g2g.com/properties-delivery-method-list-7697425d0.md): 
+- Schemas [requested_at](https://docs.g2g.com/requested-at-7697426d0.md): 
+- Schemas [properties_expired_at](https://docs.g2g.com/properties-expired-at-7697427d0.md): 
+- Schemas [order_api_delivery](https://docs.g2g.com/order-api-delivery-7697428d0.md): 
+- Schemas [order_cancelled](https://docs.g2g.com/order-cancelled-7697429d0.md): 
+- Schemas [refund_info](https://docs.g2g.com/refund-info-7697430d0.md): 
+- Schemas [refunded_currency](https://docs.g2g.com/refunded-currency-7697431d0.md): 
+- Schemas [refund_status](https://docs.g2g.com/refund-status-7697432d0.md): 
+- Schemas [order_refunded](https://docs.g2g.com/order-refunded-7697433d0.md): 
+- Schemas [order_completed](https://docs.g2g.com/order-completed-7697434d0.md): 
+- Schemas [order_rollback_cancelled](https://docs.g2g.com/order-rollback-cancelled-7697435d0.md): 
+- Schemas [order_rollback_completed](https://docs.g2g.com/order-rollback-completed-7697436d0.md): 
+- Schemas [case_reported_at](https://docs.g2g.com/case-reported-at-7697437d0.md): 
+- Schemas [report_case](https://docs.g2g.com/report-case-7697438d0.md): 
+- Schemas [report_reason](https://docs.g2g.com/report-reason-7697439d0.md): 
+- Schemas [remark](https://docs.g2g.com/remark-7697440d0.md): 
+- Schemas [report_qty](https://docs.g2g.com/report-qty-7697441d0.md): 
+- Schemas [order_case_opened](https://docs.g2g.com/order-case-opened-7697442d0.md): 
+- Schemas [actual_qty](https://docs.g2g.com/actual-qty-7697443d0.md): 
+- Schemas [properties_api_qty](https://docs.g2g.com/properties-api-qty-7697444d0.md): 
+- Schemas [properties_available_qty](https://docs.g2g.com/properties-available-qty-7697445d0.md): 
+- Schemas [properties_low_stock_alert_qty](https://docs.g2g.com/properties-low-stock-alert-qty-7697446d0.md): 
+- Schemas [offer_low_stock](https://docs.g2g.com/offer-low-stock-7697447d0.md): 

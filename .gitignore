@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+*.egg
+dist/
+build/
+
+# Environment
+.env
+
+# IDE
+.vscode/
+.kiro/
+.idea/
+
+# Logs
+*.log
+
+# Runtime data (auto-generated)
+links.json
+g2g_offers.json
+ultra_details.json
+preset_stats.json
+kur.json
+failed_queue.json
+delivery_queue.json
+errors.json
+g2g_cache.json
+otomatize_config.json
+
+# Chrome profiles
+profiles/
+chrome_profile_*/
+
+# Browser artifacts
+*.ldb
+*.sqlite
+*.tmp
+Cache/
+Cache_Data/
+
+# OS
+.DS_Store
+Thumbs.db
